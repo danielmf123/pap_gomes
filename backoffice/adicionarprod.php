@@ -1,0 +1,220 @@
+<?php
+
+//Verificar se o utilizador não está logado//
+if(!isset($_COOKIE['Utilizador'])){
+
+    //Redirecionar para a pagina anterior//
+    Header('Location: ../');
+
+}
+
+//Incluir ficheiro de funções//
+include('../stuff/funcs.php');
+
+?>
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SevenBits-BackOffice</title>
+
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/datepicker3.css" rel="stylesheet">
+    <link href="css/styles.css" rel="stylesheet">
+    <link rel="shortcut icon" type="image/ico" href="img/favicon.ico"/>
+
+    <!--Icons-->
+    <script src="js/lumino.glyphs.js"></script>
+
+    <!--[if lt IE 9]>
+    <script src="js/html5shiv.js"></script>
+    <script src="js/respond.min.js"></script>
+    <![endif]-->
+    <link rel="shortcut icon" type="image/ico" href="../stuff/img/favicon.png"/>
+
+</head>
+
+<body>
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#sidebar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="index.php"><span>SevenBits</span>BackOffice</a>
+            <ul class="user-menu">
+                <li class="dropdown pull-right">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown"><svg class="glyph stroked male-user"><use xlink:href="#stroked-male-user"></use></svg> <?php session_start(); echo $_COOKIE['Utilizador']; ?> <span class="caret"></span></a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li><a href="../"><svg class="glyph stroked home"><use xlink:href="#stroked-home"></use></svg> Voltar</a></li>
+                        <li><a href="../logout.php"><svg class="glyph stroked cancel"><use xlink:href="#stroked-cancel"></use></svg> Logout</a></li>
+                    </ul>
+                </li>
+            </ul>
+                </li>
+            </ul>
+        </div>
+
+    </div><!-- /.container-fluid -->
+</nav>
+
+<div id="sidebar-collapse" class="col-sm-3 col-lg-2 sidebar">
+    <ul class="nav menu">
+        <li><a href="index.php"><svg class="glyph stroked dashboard-dial"><use xlink:href="#stroked-dashboard-dial"></use></svg> Dashboard</a></li>
+        <li class="active"><a href="adicionarprod.php"><svg class="glyph stroked calendar"><use xlink:href="#stroked-calendar"></use></svg> Produtos</a></li>
+        <li><a href="adicionarcategoria.php"><svg class="glyph stroked calendar"><use xlink:href="#stroked-calendar"></use></svg> Categorias</a></li>
+        <li role="presentation" class="divider"></li>
+    </ul>
+
+</div><!--/.sidebar-->
+
+<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+    
+    <div style="clear:both;"></div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="panel panel-default">
+                <div class="panel-heading"><span class="glyphicon glyphicon-shopping-cart"></span> Adicionar Produto</div>
+                <div class="panel-body">
+                    <form class="form-horizontal" action="worker_adicionarproduto.php" method="post">
+                        <fieldset>
+                            <!-- Produto -->
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Produto</label>
+                                <div class="col-md-9">
+                                    <input id="produto" name="produto" type="text" class="form-control" required>
+                                </div>
+                            </div>
+
+                            <!-- Descricao -->
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Descricao</label>
+                                <div class="col-md-9">
+                                    <textarea class="form-control" id="descricao" name="descricao" rows="5" required></textarea>
+                                </div>
+                            </div>
+
+                            <!-- Preço -->
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Preço</label>
+                                <div class="col-md-9">
+                                    <input type="number" class="form-control" id="preco" name="preco" step="0.01" required>
+                                </div>
+                            </div>
+                            
+                            <!-- Quantidade -->
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Quantidade</label>
+                                <div class="col-md-9">
+                                    <input type="text" class="form-control" id="quantidade" name="quantidade" required>
+                                </div>
+                            </div>
+                            
+                            <!-- Categoria -->
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Categoria</label>
+                                <div class="col-md-9">
+                                    <select class="form-control" id="categoria" name="categoria">
+                                        <?php get_Categorias(); ?>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <!-- Imagem -->
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Imagem</label>
+                                <div class="col-md-9">
+                                    <input type="text" class="form-control" id="imagem" name="imagem" required>
+                                </div>
+                            </div>
+
+                            <!-- Form actions -->
+                            <div class="form-group">
+                                <div class="col-md-12 widget-right">
+                                    <button type="submit" class="btn btn-default btn-md pull-right">Inserir</button>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+
+        </div><!--/.col-->
+
+    </div><!--/.row-->
+</div>	<!--/.main-->
+
+<div class="col-sm-9 col-sm-offset-3 col-lg-10 col-lg-offset-2 main">
+
+    <div style="clear:both;"></div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <div class="panel panel-default">
+                <div class="panel-heading"><span class="glyphicon glyphicon-shopping-cart"></span> Adicionar Produto</div>
+                <div class="panel-body">
+                    <form class="form-horizontal" action="worker_removerproduto.php" method="post">
+                        <fieldset>
+                            <!-- Produto -->
+                            <div class="form-group">
+                                <label class="col-md-3 control-label">Produto</label>
+                                <div class="col-md-9">
+                                    <select name = "produto">
+
+                                    <?php get_Produtos(); ?>
+
+                                    </select>
+
+                                </div>
+                            </div>
+
+                            <!-- Form actions -->
+                            <div class="form-group">
+                                <div class="col-md-12 widget-right">
+                                    <button type="submit" class="btn btn-danger btn-md pull-right">Eliminar</button>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+            </div>
+
+        </div><!--/.col-->
+
+    </div><!--/.row-->
+</div>	<!--/.main-->
+
+
+<script src="js/jquery-1.11.1.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/chart.min.js"></script>
+<script src="js/chart-data.js"></script>
+<script src="js/easypiechart.js"></script>
+<script src="js/easypiechart-data.js"></script>
+<script src="js/bootstrap-datepicker.js"></script>
+<script>
+    $('#calendar').datepicker({
+    });
+
+    !function ($) {
+        $(document).on("click","ul.nav li.parent > a > span.icon", function(){
+            $(this).find('em:first').toggleClass("glyphicon-minus");
+        });
+        $(".sidebar span.icon").find('em:first').addClass("glyphicon-plus");
+    }(window.jQuery);
+
+    $(window).on('resize', function () {
+        if ($(window).width() > 768) $('#sidebar-collapse').collapse('show')
+    })
+    $(window).on('resize', function () {
+        if ($(window).width() <= 767) $('#sidebar-collapse').collapse('hide')
+    })
+</script>
+</body>
+
+</html>
